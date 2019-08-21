@@ -2,15 +2,20 @@
 
 // NOTE: Be sure to uncomment the following line in your php.ini file.
 // ;extension=php_openssl.dll
+// You might need to set the full path, for example:
+// extension="C:\Program Files\Php\ext\php_openssl.dll"
 
-// **********************************************
-// *** Update or verify the following values. ***
-// **********************************************
+if (!getenv("TRANSLATOR_TEXT_SUBSCRIPTION_KEY")) {
+    throw new Exception ("Please set/export the following environment variable: TRANSLATOR_TEXT_SUBSCRIPTION_KEY");
+} else {
+    $subscription_key = getenv("TRANSLATOR_TEXT_SUBSCRIPTION_KEY");
+}
+if (!getenv("TRANSLATOR_TEXT_ENDPOINT")) {
+    throw new Exception ("Please set/export the following environment variable: TRANSLATOR_TEXT_ENDPOINT");
+} else {
+    $endpoint = getenv("TRANSLATOR_TEXT_ENDPOINT");
+}
 
-// Replace the subscriptionKey string value with your valid subscription key.
-$key = 'ENTER KEY HERE';
-
-$host = "https://api.cognitive.microsofttranslator.com";
 $path = "/dictionary/lookup?api-version=3.0";
 
 // Translate from English to French.
@@ -58,7 +63,7 @@ $requestBody = array (
 );
 $content = json_encode($requestBody);
 
-$result = DictionaryLookup ($host, $path, $key, $params, $content);
+$result = DictionaryLookup ($endpoint, $path, $subscription_key, $params, $content);
 
 // Note: We convert result, which is JSON, to and from an object so we can pretty-print it.
 // We want to avoid escaping any Unicode characters that result contains. See:
