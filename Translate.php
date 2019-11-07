@@ -48,7 +48,8 @@ function Translate ($host, $path, $key, $params, $content) {
         'http' => array (
             'header' => $headers,
             'method' => 'POST',
-            'content' => $content
+            'content' => $content,
+            'ignore_errors' => true,
         )
     );
     $context  = stream_context_create ($options);
