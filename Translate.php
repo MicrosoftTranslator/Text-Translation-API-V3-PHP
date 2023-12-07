@@ -16,6 +16,9 @@ if (!getenv("TRANSLATOR_TEXT_ENDPOINT")) {
     $endpoint = getenv("TRANSLATOR_TEXT_ENDPOINT");
 }
 
+//check the keys and endpoint management page to get the region information
+$region = "eastasia";
+
 $path = "/translate?api-version=3.0";
 
 // Translate to German and Italian.
@@ -35,11 +38,12 @@ if (!function_exists('com_create_guid')) {
   }
 }
 
-function Translate ($host, $path, $key, $params, $content) {
+function Translate ($host, $path, $key, $region, $params, $content) {
 
     $headers = "Content-type: application/json\r\n" .
         "Content-length: " . strlen($content) . "\r\n" .
         "Ocp-Apim-Subscription-Key: $key\r\n" .
+        "Ocp-Apim-Subscription-Region:$region\r\n" .
         "X-ClientTraceId: " . com_create_guid() . "\r\n";
 
     // NOTE: Use the key 'http' even if you are making an HTTPS request. See:
@@ -63,7 +67,7 @@ $requestBody = array (
 );
 $content = json_encode($requestBody);
 
-$result = Translate ($endpoint, $path, $subscription_key, $params, $content);
+$result = Translate ($endpoint, $path, $subscription_key, $region, $params, $content);
 
 // Note: We convert result, which is JSON, to and from an object so we can pretty-print it.
 // We want to avoid escaping any Unicode characters that result contains. See:
